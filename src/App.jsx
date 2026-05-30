@@ -1,16 +1,41 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { useState } from "react";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import authService from "./appwrite/auth";
+import "./App.css";
+import Header from "./components/Header/Header";
+import Footer from "./components/Footer/Footer";
 
 function App() {
-console.log(import.meta.env.VITE_APPWRITE_URL);
-  return (
+  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    authService
+      .getCurrentUser()
+      .then((user) => {
+        if (user) {
+          dispatch(login({ userData: user }));
+        } else {
+          dispatch(logout());
+        }
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
+
+  return !loading ? (
     <>
-    <h1 className='w-full'>Mega Blog</h1>
-      </>
-  )
+      <div className="min-h-screen flex flex-wrap content-between bg-gray-50">
+        <div className="w-full block p-6 rounded-lg shadow-lg bg-white max-w-sm mx-auto mt-10 text-center">
+          <h1>Welcome to the Mega Blog Application</h1>
+          <Header />
+          <Footer />
+        </div>
+      </div>
+    </>
+  ) : null;
 }
 
-export default App
+export default App;

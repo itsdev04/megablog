@@ -50,18 +50,18 @@ export class AuthService {
       throw error;
     }
   }
-}
 
-async function getCurrentUser() {
-  try {
-    const user = await authService.account.get();
-    return user;
-  } catch (error) {
-    console.error("Get current user error:", error);
-    return null;
+  async getCurrentUser() {
+    try {
+      const user = await this.account.get();
+      return user;
+    } catch (error) {
+      console.error("Get current user error:", error);
+      return false;
+    }
   }
 }
 
 const authService = new AuthService();
 
-export default AuthService;
+export default authService;
