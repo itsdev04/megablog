@@ -5,6 +5,7 @@ import authService from "./appwrite/auth";
 import "./App.css";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
+import { login, logout } from "./store/authSlice";
 
 function App() {
   const [loading, setLoading] = useState(true);
