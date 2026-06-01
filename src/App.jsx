@@ -6,6 +6,7 @@ import "./App.css";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import { login, logout } from "./store/authSlice";
+import { Outlet } from 'react-router-dom'
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -27,16 +28,16 @@ function App() {
   }, []);
 
   return !loading ? (
-    <>
-      <div className="min-h-screen flex flex-wrap content-between bg-gray-50">
-        <div className="w-full block p-6 rounded-lg shadow-lg bg-white max-w-sm mx-auto mt-10 text-center">
-          <h1>Welcome to the Mega Blog Application</h1>
-          <Header />
-          <Footer />
-        </div>
+    <div className='min-h-screen flex flex-wrap content-between bg-gray-400'>
+      <div className='w-full block'>
+        <Header />
+        <main>
+         <Outlet />
+        </main>
+        <Footer />
       </div>
-    </>
-  ) : null;
+    </div>
+  ) : null
 }
 
 export default App;

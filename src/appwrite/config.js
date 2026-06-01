@@ -1,5 +1,5 @@
-import { config } from "./config";
-import { Client, Account, ID } from "appwrite";
+import config from '../config/config.js';
+import { Client, Databases,Storage,Account, ID, Query } from "appwrite";
 
 export class Service {
   client = new Client();

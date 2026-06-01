@@ -53,11 +53,14 @@ export class AuthService {
 
   async getCurrentUser() {
     try {
-      const user = await this.account.get();
-      return user;
+      return await this.account.get();
     } catch (error) {
-      console.error("Get current user error:", error);
-      return false;
+      if (error.code === 401) {
+        console.log("Appwrite :: getCurrentUser :: No active session (Guest)");
+      } else {
+        console.error("Appwrite :: getCurrentUser :: error", error);
+      }
+      return null;
     }
   }
 }
