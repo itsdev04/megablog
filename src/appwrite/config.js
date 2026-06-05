@@ -16,7 +16,7 @@ export class Service {
 
   async createPost({ title, slug, content, featuredImage, status, userId }) {
     try {
-      console.log("Appwrite create post featured image:", featuredImage);
+      console.log("Appwrite create post featured image:", featuredImage, "and userId:", userId);
 
       return await this.databases.createDocument(
         config.appwriteDatabaseId,
@@ -131,6 +131,7 @@ export class Service {
 
   getFileView(fileId) {
     try {
+      console.log("Getting file view for file ID:", fileId);
       return this.bucket.getFileView(config.appwriteBucketId, fileId);
     } catch (error) {
       console.error("Appwrite service :: getFileView :: error", error);

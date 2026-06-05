@@ -37,10 +37,13 @@ function PostForm({ post }) {
     } else {
       const fileId = data.image[0] ? await service.uploadFile(data.image[0]) : null;
       console.log("PostForm featured image ID:", fileId);
+
+      const username = userData?.email ? userData.email.split('@')[0] : "unknown";
+
       const dbPost = await service.createPost({
         ...data,
         featuredImage: fileId,
-        authorId: userData.$id,
+        userId: username,
       });
       if (dbPost) {
         navigate(`/post/${dbPost.slug}`);
