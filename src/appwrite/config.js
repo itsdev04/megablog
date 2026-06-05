@@ -1,5 +1,5 @@
-import config from '../config/config.js';
-import { Client, Databases,Storage,Account, ID, Query } from "appwrite";
+import config from "../config/config.js";
+import { Client, Databases, Storage, Account, ID, Query } from "appwrite";
 
 export class Service {
   client = new Client();
@@ -16,6 +16,8 @@ export class Service {
 
   async createPost({ title, slug, content, featuredImage, status, userId }) {
     try {
+      console.log("Appwrite create post featured image:", featuredImage);
+
       return await this.databases.createDocument(
         config.appwriteDatabaseId,
         config.appwriteCollectionId,
@@ -97,7 +99,9 @@ export class Service {
   async uploadFile(file) {
     try {
       const fileId = ID.unique();
+      console.log("Uploading file with ID", fileId, "and file:", file);
       await this.bucket.createFile(config.appwriteBucketId, fileId, file);
+      console.log("File uploaded successfully with ID:", fileId);
       return fileId;
     } catch (error) {
       console.error("Upload file error:", error);
@@ -115,11 +119,21 @@ export class Service {
     }
   }
 
-  async getFilePreview(fileId) {
+  getFilePreview(fileId) {
     try {
-      return await this.bucket.getFilePreview(config.appwriteBucketId, fileId);
+      console.log("Getting file preview for file ID:", fileId);
+      return this.bucket.getFilePreview(config.appwriteBucketId, fileId);
     } catch (error) {
       console.error("Get file preview error:", error);
+      return null;
+    }
+  }
+
+  getFileView(fileId) {
+    try {
+      return this.bucket.getFileView(config.appwriteBucketId, fileId);
+    } catch (error) {
+      console.error("Appwrite service :: getFileView :: error", error);
       return null;
     }
   }
